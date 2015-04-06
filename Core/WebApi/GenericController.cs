@@ -25,6 +25,11 @@ namespace GenericToolkit.Core.WebApi
             _context = context;
         }
 
+        public GenericController()
+        {
+            _context = new GenericContext(BootStrapper.Entities);
+        }
+
         public IEnumerable<TGet> Get()
         {
             var dbSet = _context.Set(typeof (TEntity));
@@ -39,7 +44,7 @@ namespace GenericToolkit.Core.WebApi
         {
             var dbSet = _context.Set(typeof (TEntity));
             var entity = await dbSet.FindAsync(id);
-            return Mapper.Map<TGet>(entity);
+            return Mapper.Map((TEntity)entity, TypeGenerator.Generate<TGet>());
         }
 
         public async Task<IHttpActionResult> Post(TPost dto)
@@ -66,6 +71,16 @@ namespace GenericToolkit.Core.WebApi
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (!disposing)
+            {
+                _context.Dispose();
+            }
         }
     }
 }

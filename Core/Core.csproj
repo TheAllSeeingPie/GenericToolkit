@@ -116,8 +116,11 @@
     <Compile Include="TypeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeScanner.cs" />
+    <Compile Include="WebApi\BootStrapper.cs" />
+    <Compile Include="WebApi\GenericAssembliesResolver.cs" />
     <Compile Include="WebApi\GenericController.cs" />
     <Compile Include="EntityFramework\IEntity.cs" />
+    <Compile Include="WebApi\GenericControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

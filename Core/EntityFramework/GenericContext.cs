@@ -15,6 +15,11 @@ namespace GenericToolkit.Core.EntityFramework
             _entities = entities;
         }
 
+        public GenericContext(IEnumerable<Type> entities)
+        {
+            _entities = entities;
+        }
+
         public override DbSet Set(Type entityType)
         {
             return base.Set(TypeGenerator.GetGeneratedType(entityType));
