@@ -10,7 +10,7 @@ Take a look at the WebApiExample project you'll see some interfaces in the "Mode
 
 - 4 classes representing the Entity and the HTTP Get/Post/Put operations 
 - As entities are interfaces they should be named "I*xxx*" where "*xxx*" is the name if the entity 
-- All Get/Post/Put in the example should follow the naming convention "I*xxxx***Verb**Dto" where "*xxx*" is the name of the entity, "**Verb**" is the http verb capitalised and postfixed with "Dto" (although the postfix can be overridden)
+- All Get/Post/Put in the example should follow the naming convention "I*xxx***Verb**Dto" where "*xxx*" is the name of the entity, "**Verb**" is the http verb capitalised and postfixed with "Dto" (although the postfix can be overridden)
 
 The configuration stuff is done in Global.asax.cs which is basically generating the controller types (there's a lot of Reflection.Emit here) and hooking them into the MVC pipeline.
 
