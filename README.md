@@ -8,11 +8,11 @@ The idea of using only Interfaces is to help stick to SOLID principles. The idea
 
 Take a look at the WebApiExample project you'll see some interfaces in the "Model" folder. There is a naming convention for these which is: 
 
-- 4 classes representing the Entity and the HTTP Get/Post/Put operations (Although it'll wire up your IEntity class as a Dto if you forget!)
-- As entities are interfaces they should be named "I*xxx*" where "*xxx*" is the name if the entity. The entity classes must inherit from IEntity
+- 4 interfaces representing the Entity and the HTTP Get/Post/Put operations (Although it'll wire up your IEntity interfaces as a Dto if you forget!)
+- As entities are interfaces they should be named "I*xxx*" where "*xxx*" is the name if the entity. The entity interfaces must inherit from IEntity
 - All Get/Post/Put in the example should follow the naming convention "I*xxx***Verb**Dto" where "*xxx*" is the name of the entity, "**Verb**" is the http verb capitalised and postfixed with "Dto" (although the postfix can be overridden)
 - Delete is done via the Id of your entity and doesn't require a Dto
 
-The configuration stuff is done in Global.asax.cs which is basically generating the controller types (there's a lot of Reflection.Emit here) and hooking them into the MVC pipeline.
+The configuration stuff is done in Global.asax.cs which is basically generating the controller types and hooking them into the MVC pipeline. There's an example project included to show how it all works.
 
-The controllers are created using the interface name without the "I". E.g. IPerson becomes a PersonController which is accessible in the example through the url /api/person 
+The controllers are created using the interface name without the "I". E.g. IPerson becomes a PersonController which is accessible in the example through the url */api/person* 
