@@ -6,13 +6,14 @@ using GenericToolkit.Core.EntityFramework;
 
 namespace GenericToolkit.Core.WebApi
 {
-    public class GenericController<TEntity, TGet, TPost, TPut> : ApiController
+    public class GenericController<TEntity, TGet, TPost, TPut> : ApiController, IGenericController
         where TEntity : class, IEntity
         where TGet : class
         where TPost : class
         where TPut : class, IEntity
     {
         private readonly GenericContext _context;
+        private readonly string _name = GetName();
 
         static GenericController()
         {
@@ -30,13 +31,18 @@ namespace GenericToolkit.Core.WebApi
             _context = new GenericContext(BootStrapper.Entities);
         }
 
+        public string Name
+        {
+            get { return _name; }
+        }
+
         public IEnumerable<TGet> Get()
         {
             var dbSet = _context.Set(typeof (TEntity));
 
             foreach (var entity in dbSet)
             {
-                yield return Mapper.Map((TEntity)entity, TypeGenerator.Generate<TGet>());
+                yield return Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>());
             }
         }
 
@@ -44,7 +50,7 @@ namespace GenericToolkit.Core.WebApi
         {
             var dbSet = _context.Set(typeof (TEntity));
             var entity = await dbSet.FindAsync(id);
-            return Mapper.Map((TEntity)entity, TypeGenerator.Generate<TGet>());
+            return Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>());
         }
 
         public async Task<IHttpActionResult> Post(TPost dto)
@@ -81,6 +87,11 @@ namespace GenericToolkit.Core.WebApi
             {
                 _context.Dispose();
             }
+        }
+
+        private static string GetName()
+        {
+            return string.Format("{0}Controller", typeof (TEntity).GetClassName());
         }
     }
 }

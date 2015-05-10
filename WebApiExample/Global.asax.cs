@@ -17,7 +17,7 @@ namespace WebApiExample
         {
             BootStrapper.RegisterControllers();
             var config = GlobalConfiguration.Configuration;
-            config.Services.Replace(typeof(IHttpControllerSelector), new BypassCacheSelector(config));
+            config.Services.Replace(typeof(IHttpControllerSelector), new GenericControllerHttpControllerSelector(config));
 
             AreaRegistration.RegisterAllAreas();
 

@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using Effort;
 using GenericToolkit.Core.EntityFramework;
+using GenericToolkit.Core.Tests.TestObjects;
 using GenericToolkit.Core.WebApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GenericToolkit.Core.Tests
+namespace GenericToolkit.Core.Tests.WebApi
 {
     [TestClass]
     public class GenericControllerTests
@@ -26,7 +27,7 @@ namespace GenericToolkit.Core.Tests
             context = new GenericContext(new[] { typeof(ITestEntity) }, connection);
             testEntity = TypeGenerator.Generate<ITestEntity>();
             dbSet = context.Set(typeof(ITestEntity));
-            controller = GenericControllerFactory.Generate<ITestEntity, ITestEntityGetDto, ITestEntityPostDto, ITestEntityPutDto>(context);
+            controller = new GenericController<ITestEntity, ITestEntityGetDto, ITestEntityPostDto, ITestEntityPutDto>(context);
         }
 
         [TestCleanup]

@@ -89,8 +89,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -117,10 +119,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeScanner.cs" />
     <Compile Include="WebApi\BootStrapper.cs" />
-    <Compile Include="WebApi\GenericAssembliesResolver.cs" />
+    <Compile Include="WebApi\GenericControllerHttpControllerSelector.cs" />
     <Compile Include="WebApi\GenericController.cs" />
     <Compile Include="EntityFramework\IEntity.cs" />
-    <Compile Include="WebApi\GenericControllerFactory.cs" />
+    <Compile Include="WebApi\IGenericController.cs" />
+    <Compile Include="WebApi\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

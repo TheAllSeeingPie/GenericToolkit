@@ -2,9 +2,10 @@
 using System.Data.Entity;
 using Effort;
 using GenericToolkit.Core.EntityFramework;
+using GenericToolkit.Core.Tests.TestObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GenericToolkit.Core.Tests
+namespace GenericToolkit.Core.Tests.EntityFramework
 {
     [TestClass]
     public class GenericContextTests
