@@ -47,8 +47,8 @@ namespace GenericToolkit.Core
                         }
 
                         var fromResolver = ValueResolvers.FirstOrDefault(vr =>
-                            vr.BaseType.GenericTypeArguments.First() == entityProp.PropertyType &&
-                            vr.BaseType.GenericTypeArguments.Last() == dtoProp.PropertyType);
+                            vr.BaseType.GenericTypeArguments.First() == dtoProp.PropertyType &&
+                            vr.BaseType.GenericTypeArguments.Last() == entityProp.PropertyType);
 
                         if (fromResolver != null)
                         {
