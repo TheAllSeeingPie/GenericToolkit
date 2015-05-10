@@ -194,9 +194,6 @@
     <Compile Include="Models\IPersonGetDto.cs" />
     <Compile Include="Models\IPersonPostDto.cs" />
     <Compile Include="Models\IPersonPutDto.cs" />
-    <Compile Include="Models\ITestEntityGetDto.cs" />
-    <Compile Include="Models\ITestEntityPostDto.cs" />
-    <Compile Include="Models\ITestEntityPutDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

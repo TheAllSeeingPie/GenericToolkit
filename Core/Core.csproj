@@ -122,6 +122,7 @@
     <Compile Include="WebApi\GenericControllerHttpControllerSelector.cs" />
     <Compile Include="WebApi\GenericController.cs" />
     <Compile Include="EntityFramework\IEntity.cs" />
+    <Compile Include="WebApi\GenericTypeModelBinder.cs" />
     <Compile Include="WebApi\IGenericController.cs" />
     <Compile Include="WebApi\TypeExtensions.cs" />
   </ItemGroup>

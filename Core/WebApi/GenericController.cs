@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.Results;
 using AutoMapper;
 using GenericToolkit.Core.EntityFramework;
 
@@ -53,7 +55,7 @@ namespace GenericToolkit.Core.WebApi
             return Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>());
         }
 
-        public async Task<IHttpActionResult> Post(TPost dto)
+        public async Task<IHttpActionResult> Post([ModelBinder(typeof(GenericTypeModelBinder))]TPost dto)
         {
             var entity = Mapper.Map(dto, TypeGenerator.Generate<TEntity>());
             var dbSet = _context.Set(typeof (TEntity));
@@ -63,7 +65,7 @@ namespace GenericToolkit.Core.WebApi
             return Ok(id);
         }
 
-        public async Task<IHttpActionResult> Put(TPut dto)
+        public async Task<IHttpActionResult> Put([ModelBinder(typeof(GenericTypeModelBinder))]TPut dto)
         {
             var updatedEntity = Mapper.Map(dto, TypeGenerator.Generate<TEntity>());
             var dbSet = _context.Set(typeof (TEntity));
@@ -75,6 +77,15 @@ namespace GenericToolkit.Core.WebApi
             }
 
             await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            var dbSet = _context.Set(typeof(TEntity));
+            var entity = await dbSet.FindAsync(id);
+            dbSet.Remove(entity);
 
             return Ok();
         }

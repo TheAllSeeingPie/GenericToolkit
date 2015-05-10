@@ -45,9 +45,9 @@ namespace GenericToolkit.Core.WebApi
             foreach (var entity in entities)
             {
                 var entityName = entity.Name;
-                var getDto = dtoTypes.Single(t => t.Name == string.Format("{0}Get{1}", entityName, postfix));
-                var postDto = dtoTypes.Single(t => t.Name == string.Format("{0}Post{1}", entityName, postfix));
-                var putDto = dtoTypes.Single(t => t.Name == string.Format("{0}Put{1}", entityName, postfix));
+                var getDto = dtoTypes.SingleOrDefault(t => t.Name == string.Format("{0}Get{1}", entityName, postfix)) ?? entity;
+                var postDto = dtoTypes.SingleOrDefault(t => t.Name == string.Format("{0}Post{1}", entityName, postfix)) ?? entity;
+                var putDto = dtoTypes.SingleOrDefault(t => t.Name == string.Format("{0}Put{1}", entityName, postfix)) ?? entity;
 
                 var controller = controllerType.MakeGenericType(entity, getDto, postDto, putDto);
                 
