@@ -21,13 +21,13 @@ namespace GenericToolkit.Core
 
             if (!GeneratedTypes.TryGetValue(type, out generatedType))
             {
-                var name = type.FullName.Replace('.','_').Replace('+', '_');
+                var name = type.FullName.Replace('.', '_').Replace('+', '_');
                 var typeBuilder = ModuleBuilder.DefineType(name, TypeAttributes.Public
-                                                                      | TypeAttributes.Class
-                                                                      | TypeAttributes.AutoClass
-                                                                      | TypeAttributes.AnsiClass
-                                                                      | TypeAttributes.Serializable
-                                                                      | TypeAttributes.BeforeFieldInit);
+                                                                 | TypeAttributes.Class
+                                                                 | TypeAttributes.AutoClass
+                                                                 | TypeAttributes.AnsiClass
+                                                                 | TypeAttributes.Serializable
+                                                                 | TypeAttributes.BeforeFieldInit);
 
                 typeBuilder.AddInterfaceImplementation(type);
 
@@ -95,10 +95,7 @@ namespace GenericToolkit.Core
                 : new[] {type};
         }
 
-        private static readonly AssemblyBuilder AssemblyBuilder =
-            AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("GenericTypes"),
-                AssemblyBuilderAccess.Run);
-
+        private static readonly AssemblyBuilder AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("GenericTypes"), AssemblyBuilderAccess.Run);
         private static readonly ModuleBuilder ModuleBuilder = AssemblyBuilder.DefineDynamicModule("GenericTypes.dll");
     }
 }

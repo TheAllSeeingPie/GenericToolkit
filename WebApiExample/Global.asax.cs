@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.Web.Http;
-using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -16,12 +15,10 @@ namespace WebApiExample
         protected void Application_Start()
         {
             BootStrapper.RegisterControllers();
-            var config = GlobalConfiguration.Configuration;
-            config.Services.Replace(typeof(IHttpControllerSelector), new GenericControllerHttpControllerSelector(config));
 
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(config);
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

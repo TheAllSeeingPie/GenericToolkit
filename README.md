@@ -12,6 +12,6 @@ Take a look at the WebApiExample project you'll see some interfaces in the "Mode
 - As entities are interfaces they should be named "I*xxx*" where "*xxx*" is the name if the entity 
 - All Get/Post/Put in the example should follow the naming convention "I*xxx***Verb**Dto" where "*xxx*" is the name of the entity, "**Verb**" is the http verb capitalised and postfixed with "Dto" (although the postfix can be overridden)
 
-The configuration stuff is done in Global.asax.cs which is basically generating the controller types (there's a lot of Reflection.Emit here) and hooking them into the MVC pipeline.
+The configuration stuff is done in Global.asax.cs which is basically generating the controller types and some concrete types based on your interfaces (there's a lot of Reflection.Emit here) and hooking them into the MVC pipeline. All you have to do is add *BootStrapper.RegisterControllers();* to your Global.asax.cs file to get started!
 
 The controllers are created using the interface name without the "I". E.g. IPerson becomes a PersonController which is accessible in the example through the url /api/person 
