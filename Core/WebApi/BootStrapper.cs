@@ -13,7 +13,7 @@ namespace GenericToolkit.Core.WebApi
     {
         private static readonly List<Type> _entities = new List<Type>();
         public static Action Configure = () => ConfigureWebApi();
-        public static IDictionary<string, Type> Controllers = new Dictionary<string, Type>();
+        public static readonly IDictionary<string, Type> Controllers = new Dictionary<string, Type>();
 
         public static IEnumerable<Type> Entities
         {
@@ -35,25 +35,12 @@ namespace GenericToolkit.Core.WebApi
         public static void RegisterControllers(Assembly entitiesAssembly = null, Assembly dtosAssembly = null,
             string postfix = null)
         {
-            if (entitiesAssembly == null)
-            {
-                entitiesAssembly = Assembly.GetCallingAssembly();
-            }
-
-            if (dtosAssembly == null)
-            {
-                dtosAssembly = entitiesAssembly;
-            }
-
-            if (postfix == null)
-            {
-                postfix = "Dto";
-            }
+            if (entitiesAssembly == null) entitiesAssembly = Assembly.GetCallingAssembly();
+            if (dtosAssembly == null) dtosAssembly = entitiesAssembly;
+            if (postfix == null) postfix = "Dto";
 
             var types = entitiesAssembly.GetTypes();
-            var entities =
-                types.Where(t => t.GetInterface(typeof (IEntity).Name, false) != null && !t.Name.EndsWith(postfix))
-                    .ToArray();
+            var entities = types.Where(t => t.GetInterface(typeof (IEntity).Name, false) != null && !t.Name.EndsWith(postfix)).ToArray();
 
             var dtoTypes = dtosAssembly.GetTypes();
             var controllerType = typeof (GenericController<,,,>);

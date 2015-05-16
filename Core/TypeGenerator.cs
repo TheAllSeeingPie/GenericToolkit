@@ -12,7 +12,15 @@ namespace GenericToolkit.Core
 
         internal static T Generate<T>() where T : class
         {
-            return (T) Generate(typeof (T));
+            var type = typeof (T);
+
+            if (type.IsInterface)
+            {
+                return (T) Generate(type);
+            }
+
+            GeneratedTypes.TryAdd(type, type);
+            return (T)Activator.CreateInstance(type);
         }
 
         internal static object Generate(Type type)
