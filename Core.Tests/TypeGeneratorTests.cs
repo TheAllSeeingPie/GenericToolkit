@@ -1,4 +1,5 @@
 ﻿using System;
+using GenericToolkit.Core.WebApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GenericToolkit.Core.Tests
@@ -25,7 +26,10 @@ namespace GenericToolkit.Core.Tests
             Assert.IsInstanceOfType(instance, typeof(IMyTestInterface));
         }
 
-        [TestMethod, ExpectedException(typeof(TypeLoadException))]
+        /// <summary>
+        /// This functionality has been removed due to allowing concrete classes instead of interfaces to be used
+        /// </summary>
+        [Ignore, TestMethod, ExpectedException(typeof(TypeLoadException))]
         public void TypeGenerator_cant_instantiate_classes()
         {
             TypeGenerator.Generate<MyTestClass>();

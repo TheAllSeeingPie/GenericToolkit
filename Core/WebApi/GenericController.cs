@@ -23,9 +23,10 @@ namespace GenericToolkit.Core.WebApi
                 (type, type1) => type1.Name.StartsWith(type.Name));
         }
 
-        public GenericController(GenericContext context)
+        public GenericController(GenericContext context = null)
         {
-            _context = context;
+            //Doing poor mans DI here due to not wanting to tie consumers of this into having an IoC framework they don't like
+            _context = context ?? new GenericContext(BootStrapper.Entities);
         }
 
         public GenericController()
@@ -86,6 +87,8 @@ namespace GenericToolkit.Core.WebApi
             var dbSet = _context.Set(typeof(TEntity));
             var entity = await dbSet.FindAsync(id);
             dbSet.Remove(entity);
+
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

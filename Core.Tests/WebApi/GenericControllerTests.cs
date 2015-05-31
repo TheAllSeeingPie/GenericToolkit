@@ -24,9 +24,10 @@ namespace GenericToolkit.Core.Tests.WebApi
         public void Initialise()
         {
             connection = DbConnectionFactory.CreateTransient();
-            context = new GenericContext(new[] { typeof(ITestEntity) }, connection);
+            var entityType = typeof(ITestEntity);
+            context = new GenericContext(new[] { entityType }, connection);
             testEntity = TypeGenerator.Generate<ITestEntity>();
-            dbSet = context.Set(typeof(ITestEntity));
+            dbSet = context.Set(entityType);
             controller = new GenericController<ITestEntity, ITestEntityGetDto, ITestEntityPostDto, ITestEntityPutDto>(context);
         }
 
@@ -95,6 +96,20 @@ namespace GenericToolkit.Core.Tests.WebApi
             var entity = await dbSet.FindAsync(putDto.Id);
 
             Assert.AreEqual("123", ((ITestEntity)entity).AProperty);
+        }
+
+        [TestMethod]
+        public async Task Delete_entity_gets_removed()
+        {
+            dbSet.Add(testEntity);
+
+            await context.SaveChangesAsync();
+            
+            Assert.AreEqual(1, (await dbSet.ToListAsync()).Count);
+
+            await controller.Delete(1);
+
+            Assert.AreEqual(0, (await dbSet.ToListAsync()).Count);
         }
     }
 }
