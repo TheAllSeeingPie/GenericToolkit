@@ -26,13 +26,11 @@ namespace GenericToolkit.Core.Tests
             Assert.IsInstanceOfType(instance, typeof(IMyTestInterface));
         }
 
-        /// <summary>
-        /// This functionality has been removed due to allowing concrete classes instead of interfaces to be used
-        /// </summary>
-        [Ignore, TestMethod, ExpectedException(typeof(TypeLoadException))]
-        public void TypeGenerator_cant_instantiate_classes()
+        [TestMethod]
+        public void TypeGenerator_can_instantiate_classes()
         {
-            TypeGenerator.Generate<MyTestClass>();
+            var instance = TypeGenerator.Generate<MyTestClass>();
+            Assert.IsInstanceOfType(instance, typeof(MyTestClass));
         }
 
         [TestMethod]

@@ -9,7 +9,7 @@ namespace GenericToolkit.Core.EntityFramework
     {
         private readonly IEnumerable<Type> _entities;
 
-        public GenericContext(IEnumerable<Type> entities, DbConnection existingConnection = null)
+        public GenericContext(IEnumerable<Type> entities, DbConnection existingConnection)
             : base(existingConnection, true)
         {
             _entities = entities;

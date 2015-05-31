@@ -141,6 +141,7 @@
     <Compile Include="TypeGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApi\GenericControllerHttpControllerSelectorTests.cs" />
+    <Compile Include="WebApi\GenericTypeModelBinderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
