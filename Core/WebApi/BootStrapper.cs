@@ -54,6 +54,7 @@ namespace GenericToolkit.Core.WebApi
                 var putDto = dtoTypes.SingleOrDefault(t => t.Name == string.Format("{0}Put{1}", entityName, postfix)) ??
                              entity;
 
+                Mapping.Register(new[] { entity }, new[] { getDto, postDto, putDto});
                 var controller = controllerType.MakeGenericType(entity, getDto, postDto, putDto);
 
                 Controllers.Add(entity.GetClassName().ToUpper(), controller);

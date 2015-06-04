@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace GenericToolkit.Core.Tests.WebApi
             testEntity = TypeGenerator.Generate<ITestEntity>();
             dbSet = context.Set(entityType);
             controller = new GenericController<ITestEntity, ITestEntityGetDto, ITestEntityPostDto, ITestEntityPutDto>(context);
+            Mapping.Register(new[] { typeof(ITestEntity) }, new[] { typeof(ITestEntityGetDto), typeof(ITestEntityPostDto), typeof(ITestEntityPutDto) });
         }
 
         [TestCleanup]
@@ -45,9 +47,9 @@ namespace GenericToolkit.Core.Tests.WebApi
             dbSet.Add(testEntity);
             context.SaveChanges();
 
-            var getDtos = controller.Get();
+            var getDtos = controller.Get() as OkNegotiatedContentResult<int[]>;
 
-            Assert.AreEqual(1, getDtos.Count());
+            Assert.AreEqual(1, getDtos.Content.Count());
         }
 
         [TestMethod]
@@ -56,9 +58,9 @@ namespace GenericToolkit.Core.Tests.WebApi
             dbSet.Add(testEntity);
             context.SaveChanges();
 
-            var getDto = await controller.Get(1);
-
-            Assert.AreEqual("1", getDto.Id);
+            var getDto = await controller.Get(1) as OkNegotiatedContentResult<ITestEntityGetDto>;
+            
+            Assert.AreEqual("1", getDto.Content.Id);
         }
 
         [TestMethod]
@@ -66,10 +68,10 @@ namespace GenericToolkit.Core.Tests.WebApi
         {
             var postDto = TypeGenerator.Generate<ITestEntityPostDto>();
             postDto.AProperty = 123.0;
-            var result = await controller.Post(postDto);
+            var result = await controller.Post(postDto) as OkNegotiatedContentResult<int>;
 
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<int>));
-            Assert.AreEqual(1, ((OkNegotiatedContentResult<int>)result).Content);
+            Assert.AreEqual(1, result.Content);
 
             var entity = await dbSet.FindAsync(1);
 

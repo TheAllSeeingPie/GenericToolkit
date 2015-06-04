@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using System.Web.Http.Results;
 using AutoMapper;
 using GenericToolkit.Core.EntityFramework;
 
@@ -16,12 +18,6 @@ namespace GenericToolkit.Core.WebApi
     {
         private readonly GenericContext _context;
         private readonly string _name = GetName();
-
-        static GenericController()
-        {
-            Mapping.Register(new[] {typeof (TEntity)}, new[] {typeof (TGet), typeof (TPost), typeof (TPut)},
-                (type, type1) => type1.Name.StartsWith(type.Name));
-        }
 
         public GenericController(GenericContext context = null)
         {
@@ -39,38 +35,34 @@ namespace GenericToolkit.Core.WebApi
             get { return _name; }
         }
 
-        public IEnumerable<TGet> Get()
+        public IHttpActionResult Get()
         {
-            var dbSet = _context.Set(typeof (TEntity));
-
-            foreach (var entity in dbSet)
+            var ids = new List<int>();
+            foreach (var entity in _context.Set(typeof(TEntity)))
             {
-                yield return Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>());
+                ids.Add(((TEntity)entity).Id);
             }
+            return Ok(ids.ToArray());
         }
 
-        public async Task<TGet> Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            var dbSet = _context.Set(typeof (TEntity));
-            var entity = await dbSet.FindAsync(id);
-            return Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>());
+            var entity = await _context.Set(typeof(TEntity)).FindAsync(id);
+            return Ok(Mapper.Map((TEntity) entity, TypeGenerator.Generate<TGet>()));
         }
 
         public async Task<IHttpActionResult> Post([ModelBinder(typeof(GenericTypeModelBinder))]TPost dto)
         {
             var entity = Mapper.Map(dto, TypeGenerator.Generate<TEntity>());
-            var dbSet = _context.Set(typeof (TEntity));
-            dbSet.Add(entity);
-            var id = await _context.SaveChangesAsync();
-
-            return Ok(id);
+            _context.Set(typeof(TEntity)).Add(entity);
+            await _context.SaveChangesAsync();
+            return Ok(entity.Id);
         }
 
         public async Task<IHttpActionResult> Put([ModelBinder(typeof(GenericTypeModelBinder))]TPut dto)
         {
             var updatedEntity = Mapper.Map(dto, TypeGenerator.Generate<TEntity>());
-            var dbSet = _context.Set(typeof (TEntity));
-            var entity = await dbSet.FindAsync(updatedEntity.Id);
+            var entity = await _context.Set(typeof(TEntity)).FindAsync(updatedEntity.Id);
 
             foreach (var property in entity.GetType().GetProperties())
             {

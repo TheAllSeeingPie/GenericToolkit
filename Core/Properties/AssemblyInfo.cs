@@ -35,5 +35,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("GenericToolkit.Core.Tests")]
-[assembly: InternalsVisibleTo("GenericToolkit.EntityFramework.Tests")]
-[assembly: InternalsVisibleTo("GenericToolkit.WebApi.Tests")]
+[assembly: InternalsVisibleTo("GenericToolkit.Core.WebApi2")]

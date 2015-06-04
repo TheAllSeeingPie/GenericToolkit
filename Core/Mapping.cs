@@ -14,14 +14,20 @@ namespace GenericToolkit.Core
             .Where(t => t.BaseType.GenericTypeArguments.Any() && t.BaseType.GenericTypeArguments.Count() == 2)
             .ToArray();
 
-        public static void Register(IEnumerable<Type> entities, Type[] dtos, Func<Type, Type, bool> namingConvention)
+        public static void Register(IEnumerable<Type> entities, IEnumerable<Type> dtos, Func<Type, Type, bool> namingConvention = null)
         {
+            if (namingConvention == null)
+            {
+                namingConvention = (type, type1) => type1.Name.StartsWith(type.Name);
+            }
+
+            var dtoArray = dtos as Type[] ?? dtos.ToArray();
             foreach (var e in entities)
             {
                 var entity = e;
                 var entityProperties = entity.GetProperties();
-
-                foreach (var dto in dtos.Where(dto => namingConvention(entity, dto)))
+                
+                foreach (var dto in dtoArray.Where(dto => namingConvention(entity, dto)))
                 {
                     var toMap = Mapper.CreateMap(entity, dto);
                     var fromMap = Mapper.CreateMap(dto, entity);
