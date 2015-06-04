@@ -35,14 +35,9 @@ namespace GenericToolkit.Core.WebApi
             get { return _name; }
         }
 
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var ids = new List<int>();
-            foreach (var entity in _context.Set(typeof(TEntity)))
-            {
-                ids.Add(((TEntity)entity).Id);
-            }
-            return Ok(ids.ToArray());
+            return Ok((await _context.Set(typeof (TEntity)).ToListAsync()).Cast<TEntity>().Select(entity => entity.Id));
         }
 
         public async Task<IHttpActionResult> Get(int id)

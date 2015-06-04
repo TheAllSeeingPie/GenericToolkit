@@ -42,12 +42,12 @@ namespace GenericToolkit.Core.Tests.WebApi
         }
 
         [TestMethod]
-        public void Get_without_id_returns_all_entities()
+        public async Task Get_without_id_returns_all_entities()
         {
             dbSet.Add(testEntity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
-            var getDtos = controller.Get() as OkNegotiatedContentResult<int[]>;
+            var getDtos = await controller.Get() as OkNegotiatedContentResult<IEnumerable<int>>;
 
             Assert.AreEqual(1, getDtos.Content.Count());
         }
@@ -56,7 +56,7 @@ namespace GenericToolkit.Core.Tests.WebApi
         public async Task Get_with_id_returns_an_entity()
         {
             dbSet.Add(testEntity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var getDto = await controller.Get(1) as OkNegotiatedContentResult<ITestEntityGetDto>;
             
